@@ -1,0 +1,358 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  ArrowRight,
+  CalendarDays,
+  Handshake,
+  Landmark,
+  Laptop,
+  MapPin,
+  Mic2,
+  Users,
+} from "lucide-react";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+import { EventCard } from "@/components/event-card";
+import { FaqList } from "@/components/faq-list";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { FORMATS, TOWNS, featuredEvents, upcomingEvents } from "@/lib/events";
+
+export const Route = createFileRoute("/")({
+  component: Home,
+  head: () => ({
+    meta: [
+      {
+        title: "AI for Missouri — Hackathons, Workshops & Seminars",
+      },
+      {
+        name: "description",
+        content:
+          "Community AI gatherings across Missouri: weekend hackathons, hands-on workshops, and straight-talk seminars. Hosted by David James.",
+      },
+    ],
+  }),
+});
+
+const FORMAT_ICONS = {
+  hackathon: Laptop,
+  workshop: Users,
+  seminar: Mic2,
+} as const;
+
+function Home() {
+  const featured = featuredEvents().slice(0, 3);
+  const next = upcomingEvents()[0];
+
+  return (
+    <div className="flex min-h-dvh flex-col">
+      <section className="relative isolate min-h-[92dvh] overflow-hidden bg-forest-deep text-paper">
+        <img
+          src="/images/hero-square.jpg"
+          alt="A limestone courthouse on a leafy Missouri town square at golden hour"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="hero-shade absolute inset-0" />
+        <div className="relative flex min-h-[92dvh] flex-col">
+          <SiteHeader tone="hero" />
+          <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col justify-end px-4 pb-14 pt-20 sm:px-6 sm:pb-20">
+            <p className="rise-in rise-in-1 text-xs font-medium uppercase tracking-[0.18em] text-paper/70">
+              Serving all of Missouri · Based in Clinton
+            </p>
+            <h1 className="rise-in rise-in-2 mt-4 max-w-3xl font-display text-[2.6rem] leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
+              Gatherings for people who actually live here.
+            </h1>
+            <p className="rise-in rise-in-3 mt-5 max-w-xl text-base leading-relaxed text-paper/85 sm:text-lg">
+              Hackathons. Workshops. Seminars. Plain English, real towns, no
+              hype — hosted by David James.
+            </p>
+            <div className="rise-in rise-in-4 mt-8 flex flex-wrap items-center gap-3">
+              <Button asChild variant="inverse" size="lg">
+                <Link to="/events">
+                  See the calendar
+                  <ArrowRight />
+                </Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="ghost"
+                className="text-paper ring-1 ring-paper/25 hover:bg-paper/10"
+              >
+                <Link to="/host">Bring one to your town</Link>
+              </Button>
+            </div>
+            {next ? (
+              <Link
+                to="/events/$slug"
+                params={{ slug: next.slug }}
+                className="rise-in rise-in-4 mt-10 inline-flex max-w-xl items-start gap-3 rounded-xl bg-forest-deep/55 p-4 ring-1 ring-paper/15 backdrop-blur-sm transition-colors duration-150 hover:bg-forest-deep/70"
+              >
+                <CalendarDays className="mt-0.5 size-4 shrink-0 text-paper/70" />
+                <span>
+                  <span className="block text-xs uppercase tracking-[0.14em] text-paper/55">
+                    Next up
+                  </span>
+                  <span className="mt-1 block font-display text-lg leading-snug">
+                    {next.title}
+                  </span>
+                  <span className="mt-1 block text-sm text-paper/75">
+                    {next.whenLabel} · {next.city}
+                  </span>
+                </span>
+              </Link>
+            ) : null}
+          </div>
+        </div>
+      </section>
+
+      <main id="main">
+        <section className="border-b border-border bg-paper">
+          <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-[1.1fr_0.9fr] md:py-20">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                The idea
+              </p>
+              <h2 className="mt-3 font-display text-3xl tracking-tight sm:text-4xl">
+                Missouri does not need another webinar from somewhere else.
+              </h2>
+            </div>
+            <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
+              Hi, I am David James. I live near Clinton. I host AI gatherings
+              across the state so regular folks — shop owners, farm families,
+              librarians, teachers, curious neighbors — can actually use this
+              stuff. A room, a Saturday, a real question. That is the whole
+              program.
+            </p>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                Three formats
+              </p>
+              <h2 className="mt-3 font-display text-3xl tracking-tight sm:text-4xl">
+                How we gather.
+              </h2>
+            </div>
+          </div>
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            {(
+              ["workshop", "seminar", "hackathon"] as const
+            ).map((kind) => {
+              const format = FORMATS[kind];
+              const Icon = FORMAT_ICONS[kind];
+              return (
+                <Link
+                  key={kind}
+                  to="/events"
+                  search={{ kind }}
+                  className="group flex flex-col overflow-hidden rounded-2xl bg-card shadow-card transition-[box-shadow] duration-200 hover:shadow-card-hover"
+                >
+                  <div className="relative aspect-[16/10] overflow-hidden">
+                    <img
+                      src={format.image}
+                      alt=""
+                      className="media h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+                  </div>
+                  <div className="flex flex-1 flex-col p-5">
+                    <p className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                      <Icon className="size-3.5" aria-hidden />
+                      {format.kicker}
+                    </p>
+                    <h3 className="mt-2 font-display text-2xl">{format.plural}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      {format.summary}
+                    </p>
+                    <p className="mt-4 text-xs text-moss">{format.duration}</p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="bg-forest text-primary-foreground">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="text-xs font-medium uppercase tracking-[0.16em] text-primary-foreground/55">
+                  On the calendar
+                </p>
+                <h2 className="mt-3 font-display text-3xl tracking-tight sm:text-4xl">
+                  Coming up around the state.
+                </h2>
+              </div>
+              <Button asChild variant="inverse">
+                <Link to="/events">
+                  Full calendar
+                  <ArrowRight />
+                </Link>
+              </Button>
+            </div>
+            <div className="mt-10 grid gap-5 lg:grid-cols-3">
+              {featured.map((event) => (
+                <EventCard key={event.slug} event={event} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+          <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+            A typical day
+          </p>
+          <h2 className="mt-3 max-w-xl font-display text-3xl tracking-tight sm:text-4xl">
+            What it actually feels like in the room.
+          </h2>
+          <ol className="mt-10 grid gap-6 md:grid-cols-3">
+            {[
+              {
+                n: "01",
+                t: "We start from the question you walked in with.",
+                d: "Not a canned curriculum. A letter, a listing, a grant, a classroom unit, a missed-call headache — the thing that is actually on your desk.",
+              },
+              {
+                n: "02",
+                t: "You do the work on your own phone or laptop.",
+                d: "Workshops and hackathons are hands-on. Seminars are sit-and-ask. Nobody is watching a slide deck in the dark for an hour.",
+              },
+              {
+                n: "03",
+                t: "You leave with something you can use on Monday.",
+                d: "A draft. A working helper. A one-page how-to. A clearer sense of what not to hand to a machine.",
+              },
+            ].map((step) => (
+              <li key={step.n} className="rounded-2xl bg-card p-6 shadow-card">
+                <p className="font-display text-sm text-moss">{step.n}</p>
+                <h3 className="mt-3 font-display text-xl leading-snug">{step.t}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {step.d}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="border-y border-border bg-paper">
+          <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-2 md:py-20">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                Who shows up
+              </p>
+              <h2 className="mt-3 font-display text-3xl tracking-tight sm:text-4xl">
+                Neighbors, not a tech scene.
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                Realtors, insurance offices, librarians, farm families, city
+                clerks, high-school teachers, retirees who want to write a
+                decent letter. If you have been told this is not for you, it is.
+              </p>
+            </div>
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {[
+                { icon: Landmark, t: "Libraries & chambers", d: "The rooms that already hold this town together." },
+                { icon: Handshake, t: "Shops & trades", d: "The quote, the follow-up, the Saturday rush." },
+                { icon: MapPin, t: "Farms & ranches", d: "Paperwork, weather, markets — in plain English." },
+                { icon: Users, t: "Beginners & seniors", d: "No silly questions. Ever." },
+              ].map((item) => (
+                <li key={item.t} className="rounded-xl bg-background p-4">
+                  <item.icon className="size-4 text-moss" aria-hidden />
+                  <p className="mt-3 font-medium">{item.t}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{item.d}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+          <div className="overflow-hidden rounded-2xl bg-forest-deep text-paper md:grid md:grid-cols-[1.1fr_0.9fr]">
+            <div className="p-8 sm:p-10">
+              <Badge variant="paper">Traveling the state</Badge>
+              <h2 className="mt-4 font-display text-3xl tracking-tight sm:text-4xl">
+                Bring a gathering to your town.
+              </h2>
+              <p className="mt-4 max-w-md text-sm leading-relaxed text-paper/75 sm:text-base">
+                A library meeting room, a chamber breakfast, a church basement, a
+                community-college gym. If you can get the people, we will bring
+                the gathering.
+              </p>
+              <Button asChild variant="inverse" className="mt-8">
+                <Link to="/host">
+                  Tell us about the room
+                  <ArrowRight />
+                </Link>
+              </Button>
+            </div>
+            <div className="border-t border-paper/10 p-8 sm:p-10 md:border-l md:border-t-0">
+              <p className="text-xs font-medium uppercase tracking-[0.16em] text-paper/50">
+                Towns on the list
+              </p>
+              <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+                {TOWNS.map((town) => (
+                  <li key={town.name}>
+                    <span className="font-medium">{town.name}</span>
+                    <span className="block text-xs text-paper/50">{town.note}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-paper">
+          <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 md:grid-cols-[0.9fr_1.1fr] md:py-20">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                The host
+              </p>
+              <h2 className="mt-3 font-display text-3xl tracking-tight sm:text-4xl">
+                A little about me.
+              </h2>
+              <p className="mt-5 text-base leading-relaxed text-muted-foreground">
+                I live near Clinton. After years in IT I kept noticing the same
+                thing: the technology that is supposed to help folks often just
+                leaves them feeling left behind. AI is the biggest one yet.
+              </p>
+              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                So AI for Missouri is gatherings — not a product lab. I will not
+                talk over your head. I will not sell you something you do not
+                need. When I am not in a library meeting room, I am out around
+                the lakes and the small towns.
+              </p>
+              <Button asChild variant="outline" className="mt-6">
+                <Link to="/about">More about David</Link>
+              </Button>
+            </div>
+            <figure className="overflow-hidden rounded-2xl">
+              <img
+                src="/images/hero-square.jpg"
+                alt="Historic downtown square near Clinton, Missouri"
+                className="media aspect-[16/10] w-full object-cover"
+              />
+              <figcaption className="bg-card px-5 py-3 text-sm text-muted-foreground">
+                Home base: historic downtown Clinton, Henry County.
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20">
+          <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+            Questions
+          </p>
+          <h2 className="mt-3 font-display text-3xl tracking-tight sm:text-4xl">
+            Before you come.
+          </h2>
+          <div className="mt-8">
+            <FaqList />
+          </div>
+        </section>
+      </main>
+      <SiteFooter />
+    </div>
+  );
+}

@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: #f2ebe0;
+  --color-foreground: #172117;
+  --color-card: #faf6ef;
+  --color-paper: #faf6ef;
+  --color-muted: #e6ddd0;
+  --color-muted-foreground: #5a6254;
+  --color-primary: #1e4636;
+  --color-primary-foreground: #f2ebe0;
+  --color-secondary: #e4dccb;
+  --color-secondary-foreground: #172117;
+  --color-accent: #8c3f30;
+  --color-accent-foreground: #faf6ef;
+  --color-border: #d4cbb8;
+  --color-ring: #1e4636;
+  --color-forest: #1e4636;
+  --color-forest-deep: #12291f;
+  --color-moss: #4d6a56;
+  --color-cream: #f2ebe0;
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 1.75rem;
+
+  --shadow-card:
+    0px 0px 0px 1px rgba(23, 33, 23, 0.06),
+    0px 1px 2px -1px rgba(23, 33, 23, 0.06),
+    0px 8px 24px -12px rgba(23, 33, 23, 0.12);
+  --shadow-card-hover:
+    0px 0px 0px 1px rgba(23, 33, 23, 0.1),
+    0px 1px 2px -1px rgba(23, 33, 23, 0.08),
+    0px 14px 32px -12px rgba(23, 33, 23, 0.18);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-background);
+    color: var(--color-foreground);
+    line-height: 1.55;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+    letter-spacing: -0.03em;
+    font-weight: 550;
+    line-height: 1.15;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  img.media {
+    outline: 1px solid rgba(23, 33, 23, 0.12);
+    outline-offset: -1px;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-primary) 22%, transparent);
+    color: var(--color-foreground);
+  }
+}
+
+.hero-shade {
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--color-forest-deep) 18%, transparent) 0%,
+    color-mix(in oklab, var(--color-forest-deep) 48%, transparent) 42%,
+    color-mix(in oklab, var(--color-forest-deep) 84%, transparent) 100%
+  );
+}
+
+.shadow-card {
+  box-shadow: var(--shadow-card);
+}
+
+.shadow-card-hover:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.rise-in {
+  animation: rise-in 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.rise-in-1 {
+  animation-delay: 40ms;
+}
+.rise-in-2 {
+  animation-delay: 120ms;
+}
+.rise-in-3 {
+  animation-delay: 200ms;
+}
+.rise-in-4 {
+  animation-delay: 280ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise-in,
+  .rise-in-1,
+  .rise-in-2,
+  .rise-in-3,
+  .rise-in-4 {
+    animation: none;
+  }
+}
