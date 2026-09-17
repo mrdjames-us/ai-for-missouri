@@ -41,7 +41,7 @@ export function HostForm() {
       <div className="rounded-xl bg-primary p-6 text-primary-foreground">
         <p className="flex items-center gap-2 font-display text-xl">
           <Check className="size-5" aria-hidden />
-          Got it — we will write you back.
+          Got it — I’ll write you back.
         </p>
         <p className="mt-2 text-sm leading-relaxed text-primary-foreground/80">
           David reads these himself. If you need him sooner, call{" "}

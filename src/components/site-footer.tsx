@@ -7,7 +7,7 @@ export function SiteFooter() {
         <div>
           <p className="font-display text-2xl tracking-tight">AI for Missouri</p>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-paper/70">
-            Hackathons, workshops, and seminars — we use AI live, in the room,
+            Hackathons, workshops, and seminars — I use AI live, in the room,
             to build things. Based in Clinton. Traveling the state.
           </p>
         </div>
@@ -59,7 +59,14 @@ export function SiteFooter() {
       </div>
       <div className="border-t border-paper/10">
         <p className="mx-auto max-w-6xl px-4 py-5 text-xs text-paper/45 sm:px-6">
-          Built by Missourians, for Missourians. No hype, no headache.
+          Built in Clinton, for Missouri. Courthouse photo:{' '}
+          <a
+            href="https://commons.wikimedia.org/wiki/File:Henry_County_Missouri_Courthouse_20191026-2974.jpg"
+            className="underline-offset-2 hover:text-cream hover:underline"
+          >
+            Kbh3rd
+          </a>
+          , Wikimedia Commons, CC BY 4.0.
         </p>
       </div>
     </footer>

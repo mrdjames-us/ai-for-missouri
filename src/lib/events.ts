@@ -44,7 +44,7 @@ export const FORMATS: Record<
     summary:
       "A day or a weekend of building in the open. You watch it take shape in the room, then you ship something that actually runs.",
     detail:
-      "Teams of neighbors, students, shop owners, and anyone curious. Mentors on the floor, building live. Tracks for first-timers and for folks who already code. We end with short demos, not a pitch contest.",
+      "Teams of neighbors, students, shop owners, and anyone curious. I stay on the floor, building live. Tracks for first-timers and for folks who already code. The day ends with short demos, not a pitch contest.",
     duration: "One day or a weekend",
     image: "/images/format-hackathon.jpg",
   },
@@ -55,7 +55,7 @@ export const FORMATS: Record<
     summary:
       "David works live from a question in the room. Then everyone tries it on their own phone or laptop. Small groups, no jargon.",
     detail:
-      "Libraries, churches, chambers, and community rooms. We go slow on purpose. You watch a real thing get built, then you build one. Seniors, shop owners, teachers, farm families — if you can tap a screen, you can do this.",
+      "Libraries, churches, chambers, and community rooms. I go slow on purpose. You watch a real thing get built, then you build one. Seniors, shop owners, teachers, farm families — if you can tap a screen, you can do this.",
     duration: "A morning or an afternoon",
     image: "/images/format-workshop.jpg",
   },
@@ -64,7 +64,7 @@ export const FORMATS: Record<
     plural: "Seminars",
     kicker: "Straight talk, then a live build",
     summary:
-      "A clear talk for a room of neighbors — then we use the tools live so you see what AI can do, and what it cannot.",
+      "A clear talk for a room of neighbors — then I use the tools live so you see what AI can do, and what it cannot.",
     detail:
       "Built for chambers, civic clubs, school boards, and city staff. Forty-five minutes of sense, a live build from a question in the room, then questions. You will not be sold a package.",
     duration: "About ninety minutes",
@@ -93,7 +93,7 @@ export const EVENTS: EventItem[] = [
     who: ["Curious beginners", "Small-business owners", "Anyone from Henry County"],
     bring: ["A phone or laptop", "A question you actually have"],
     agenda: [
-      { time: "10:00", item: "Coffee, nametags, and what we will (and will not) cover" },
+      { time: "10:00", item: "Coffee, nametags, and what I will (and will not) cover" },
       { time: "10:20", item: "Your first useful conversation with an AI tool" },
       { time: "11:10", item: "Write something real: a letter, a listing, a plan" },
       { time: "12:00", item: "Safety, scams, and questions" },
@@ -134,7 +134,7 @@ export const EVENTS: EventItem[] = [
     slug: "clinton-october-workshop",
     kind: "workshop",
     title: "First Hour with AI",
-    lede: "Never typed a thing into ChatGPT? Perfect. We go slow, we have fun, and you leave with something useful.",
+    lede: "Never typed a thing into ChatGPT? Perfect. I go slow, and you leave with something useful.",
     city: "Clinton",
     venue: "Clinton Public Library",
     region: "West Central",
@@ -158,7 +158,7 @@ export const EVENTS: EventItem[] = [
       { time: "12:10", item: "What to try this week" },
     ],
     body: [
-      "This is the gentle on-ramp. No one will make you feel behind. We work on the thing you actually came in with — a letter to a grandkid, a shop email, a garden plan — not a made-up exercise.",
+      "This is the gentle on-ramp. No one will make you feel behind. I work on the thing you actually came in with — a letter to a grandkid, a shop email, a garden plan — not a made-up exercise.",
       "Hosted in the library meeting room in historic downtown Clinton. Coffee on the side table. Chairs for twenty-four.",
     ],
   },
@@ -294,7 +294,7 @@ export const EVENTS: EventItem[] = [
     body: [
       "This is the home-county one-day. If Harvest Hack in Warrensburg is more weekend than you can give, this is yours. Same rules: no prize pool, no investor panel, no sales pitch. The point is a working helper by six.",
       "Teams of two to five. Every team gets a mentor. If you do not code, you still belong here — you can own the problem, the testing, and the write-up. First-timers are expected, not tolerated.",
-      "Park on the square or along the side streets. The Community Building will be signed from Franklin Street. Doors open at 9:45. We start at ten sharp.",
+      "Park on the square or along the side streets. The Community Building will be signed from Franklin Street. Doors open at 9:45. I start at ten sharp.",
     ],
   },
   {
@@ -317,13 +317,13 @@ export const EVENTS: EventItem[] = [
     who: ["Seniors", "Complete beginners", "Anyone helping a parent or neighbor"],
     bring: ["A phone or tablet", "A pair of reading glasses if you use them"],
     agenda: [
-      { time: "1:00", item: "No silly questions. We start from zero." },
+      { time: "1:00", item: "No silly questions. I start from zero." },
       { time: "1:20", item: "Ask for a letter, a recipe, a trip plan" },
       { time: "2:20", item: "How scams show up, and how to slow down" },
       { time: "3:00", item: "A cheat sheet to take home" },
     ],
     body: [
-      "We go at the speed of the room. If you have never opened ChatGPT, you are the person this afternoon is for.",
+      "I go at the speed of the room. If you have never opened ChatGPT, you are the person this afternoon is for.",
     ],
   },
   {
@@ -352,7 +352,7 @@ export const EVENTS: EventItem[] = [
       { time: "11:15", item: "Questions" },
     ],
     body: [
-      "This one is for the skeptics and the over-sold alike. We will name what is useful this year, what is theater, and what a Springfield shop or classroom can try on Monday.",
+      "This one is for the skeptics and the over-sold alike. I will name what is useful this year, what is theater, and what a Springfield shop or classroom can try on Monday.",
     ],
   },
   {
@@ -417,7 +417,7 @@ export const EVENTS: EventItem[] = [
       { time: "11:20", item: "Build one activity you can use next week" },
     ],
     body: [
-      "We will not pretend the tools are not in students’ pockets. We will make a classroom practice that is honest, useful, and still yours.",
+      "I will not pretend the tools are not in students’ pockets. I will help you make a classroom practice that is honest, useful, and still yours.",
     ],
   },
   {
@@ -506,7 +506,7 @@ export const EVENTS: EventItem[] = [
       { time: "12:00", item: "Safety, sharing, and what to try next" },
     ],
     body: [
-      "Same workshop we run in Clinton, with the room pointed at Joplin questions — shops, families, and the next thing you actually need written.",
+      "Same workshop I run in Clinton, with the room pointed at Joplin questions — shops, families, and the next thing you actually need written.",
     ],
   },
   {
@@ -569,7 +569,7 @@ export const EVENTS: EventItem[] = [
       { time: "3:10", item: "Questions" },
     ],
     body: [
-      "A Sunday afternoon seminar so the shops can still have Saturday. Straight talk, then we stay for questions.",
+      "A Sunday afternoon seminar so the shops can still have Saturday. Straight talk, then I stay for questions.",
     ],
   },
   {
@@ -598,7 +598,7 @@ export const EVENTS: EventItem[] = [
       { time: "11:20", item: "Records you can actually keep" },
     ],
     body: [
-      "Boots-still-muddy by design. We will not talk about precision-ag dashboards you do not own. We will get through a grant letter, a livestock note, and a question about the week’s forecast.",
+      "Boots-still-muddy by design. I will not talk about precision-ag dashboards you do not own. I will get you through a grant letter, a livestock note, and a question about the week’s forecast.",
     ],
   },
 ];
@@ -613,7 +613,7 @@ function paidAndReadySession(opts: {
     slug: `paid-and-ready-${opts.start.slice(0, 7)}`,
     kind: "workshop",
     title: "Paid and Ready",
-    lede: "Live in the room: we set up your own paid AI subscription for personal use. You pay the tool company if you choose. We do not sell one.",
+    lede: "Live in the room: I set up your own paid AI subscription for personal use. You pay the tool company if you choose. I do not sell one.",
     city: "Clinton",
     venue: "Clinton Public Library",
     region: "West Central",
@@ -647,8 +647,8 @@ function paidAndReadySession(opts: {
       { time: "7:20", item: "Questions. Nobody has to subscribe tonight." },
     ],
     body: [
-      "Paid and Ready is a monthly Wednesday evening in Clinton. We use AI live, in front of the room, and walk through setting up a paid subscription for your own personal use — ChatGPT, Claude, or similar.",
-      "This is not a product we sell. If you subscribe, you pay the tool company. We sit next to you, on the projector and on your phone, and get the account working: email, billing, privacy, cancel, and the first thing that is actually useful.",
+      "Paid and Ready is a monthly Wednesday evening in Clinton. I use AI live, in front of the room, and walk through setting up a paid subscription for your own personal use — ChatGPT, Claude, or similar.",
+      "This is not a product I sell. If you subscribe, you pay the tool company. I sit next to you, on the projector and on your phone, and get the account working: email, billing, privacy, cancel, and the first thing that is actually useful.",
       "Come even if you are not ready to pay. Watching the setup is the point. First Wednesday of the month, 6:00 to 7:30 p.m., library meeting room. Coffee on the side table.",
     ],
   };
@@ -719,7 +719,7 @@ export const TOWNS = [
 export const FAQS = [
   {
     q: "What is Paid and Ready?",
-    a: "A monthly Wednesday evening in Clinton. We use the tools live and walk through setting up your own paid AI subscription — ChatGPT, Claude, or similar — for personal use. First Wednesday, 6:00 to 7:30 p.m., at the library. You pay the tool company if you choose. We do not sell a subscription.",
+    a: "A monthly Wednesday evening in Clinton. I use the tools live and walk through setting up your own paid AI subscription — ChatGPT, Claude, or similar — for personal use. First Wednesday, 6:00 to 7:30 p.m., at the library. You pay the tool company if you choose. I do not sell a subscription.",
   },
   {
     q: "Do I have to pay for a subscription at Paid and Ready?",
@@ -727,7 +727,7 @@ export const FAQS = [
   },
   {
     q: "Do you actually build things in the room?",
-    a: "Yes. That is the whole method. We use AI live, in front of whoever showed up, on a real question from the room. You watch it get made. Then you try it on your own phone or laptop.",
+    a: "Yes. That is the whole method. I use AI live, in front of whoever showed up, on a real question from the room. You watch it get made. Then you try it on your own phone or laptop.",
   },
   {
     q: "Do I need to know how to code?",
@@ -735,7 +735,7 @@ export const FAQS = [
   },
   {
     q: "Is this a sales pitch?",
-    a: "No. These are community gatherings. David will not sell you a package from the lectern, and nothing on this site is a product list. Paid and Ready walks you through a subscription you buy from the tool company — that is not ours. If you later want help on a specific job, that is a different conversation, on a different day.",
+    a: "No. These are community gatherings. I will not sell you a package from the lectern, and nothing on this site is a product list. Paid and Ready walks you through a subscription you buy from the tool company — that is not mine. If you later want help on a specific job, that is a different conversation, on a different day.",
   },
   {
     q: "What should I bring?",
@@ -743,7 +743,7 @@ export const FAQS = [
   },
   {
     q: "Can my library, chamber, church, or school host one?",
-    a: "Yes. That is the point. Tell us the room, the town, and whether you are picturing a workshop, a seminar, or a weekend build. We will figure out the rest together.",
+    a: "Yes. That is the point. Tell me the room, the town, and whether you are picturing a workshop, a seminar, or a weekend build. I will figure out the rest with you.",
   },
   {
     q: "Are events in person?",
@@ -751,7 +751,7 @@ export const FAQS = [
   },
   {
     q: "Can high-schoolers come?",
-    a: "Workshops and seminars, yes — especially with a parent or teacher. Hackathons, yes if you can stay for the hours and a grown-up knows you are there. We are not a drop-off camp.",
+    a: "Workshops and seminars, yes — especially with a parent or teacher. Hackathons, yes if you can stay for the hours and a grown-up knows you are there. This is not a drop-off camp.",
   },
 ];
 

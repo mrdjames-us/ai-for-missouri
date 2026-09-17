@@ -126,7 +126,7 @@ function EventsPage() {
             <h2 className="font-display text-2xl">Do not see your town?</h2>
             <p className="mt-2 max-w-md text-sm text-muted-foreground">
               That is what the traveling calendar is for. A room and a date
-              get us most of the way.
+              get me most of the way.
             </p>
           </div>
           <Button asChild className="mt-4 sm:mt-0">

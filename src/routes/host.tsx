@@ -14,7 +14,7 @@ export const Route = createFileRoute("/host")({
       {
         name: "description",
         content:
-          "Bring a live AI gathering to your Missouri library, chamber, church, or school. We build in front of your people.",
+          "Bring a live AI gathering to your Missouri library, chamber, church, or school. I build in front of your people.",
       },
     ],
   }),
@@ -50,7 +50,7 @@ function HostPage() {
 
         <div className="mx-auto grid max-w-6xl gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <h2 className="font-display text-2xl">What we need from you</h2>
+            <h2 className="font-display text-2xl">What I need from you</h2>
             <ul className="mt-5 space-y-4 text-sm leading-relaxed text-muted-foreground">
               <li>
                 <span className="font-medium text-foreground">A room.</span>{" "}
@@ -64,7 +64,7 @@ function HostPage() {
               <li>
                 <span className="font-medium text-foreground">The people.</span>{" "}
                 You already have the list — members, patrons, congregation,
-                staff. We will help you word the invitation.
+                staff. I’ll help you word the invitation.
               </li>
               <li>
                 <span className="font-medium text-foreground">Coffee helps.</span>{" "}
@@ -106,7 +106,7 @@ function HostPage() {
             </p>
           </div>
           <div className="rounded-2xl bg-card p-6 shadow-card sm:p-8">
-            <h2 className="font-display text-2xl">Tell us about the room</h2>
+            <h2 className="font-display text-2xl">Tell me about the room</h2>
             <p className="mt-2 text-sm text-muted-foreground">
               David reads these himself. A few sentences is plenty.
             </p>

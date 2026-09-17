@@ -37,7 +37,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "We use AI live, in front of people, to build things. Hackathons, workshops, and seminars across Missouri. Hosted by David James.",
+          "I use AI live, in front of people, to build things. Hackathons, workshops, and seminars across Missouri. Hosted by David James.",
       },
     ],
   }),
@@ -60,7 +60,7 @@ function Home() {
       <section className="relative isolate min-h-[92dvh] overflow-hidden bg-forest-deep text-paper">
         <img
           src="/images/hero-square.jpg"
-          alt="A limestone courthouse on a leafy Missouri town square at golden hour"
+          alt="Henry County Courthouse on the square in Clinton, Missouri"
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="hero-shade absolute inset-0" />
@@ -128,10 +128,10 @@ function Home() {
               </h2>
             </div>
             <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Hi, I am David James. I live near Clinton. I host AI gatherings
-              across the state so regular folks can actually use this stuff. The
-              method is simple: we use the tools live, in front of the room, and
-              we build something real — then you do it yourself.
+              I’m David. I live near Clinton. I host these gatherings so you
+              can use the tools yourself — not sit through another talk. I
+              fire them up in the room, build the real thing, then you take a
+              turn. That’s the job.
             </p>
           </div>
         </section>
@@ -142,7 +142,7 @@ function Home() {
               The method
             </p>
             <h2 className="mt-3 max-w-2xl font-display text-3xl tracking-tight sm:text-4xl">
-              We use AI live, in front of people, to build things.
+              I use AI live, in front of people, to build things.
             </h2>
             <ol className="mt-10 grid gap-6 md:grid-cols-3">
               {[
@@ -150,12 +150,12 @@ function Home() {
                   n: "01",
                   icon: Users,
                   t: "Someone names a real problem.",
-                  d: "A letter. A listing. A missed-call headache. A form you keep putting off. We start from what you walked in with — not a canned demo.",
+                  d: "A letter. A listing. A missed-call headache. A form you keep putting off. I start from what you walked in with — not a canned demo.",
                 },
                 {
                   n: "02",
                   icon: MonitorPlay,
-                  t: "We build it live. You watch every click.",
+                  t: "I build it live. You watch every click.",
                   d: "On the projector, in the room, with the tools on the table. No slide deck in the dark. If it fails, you see that too. That is the honest part.",
                 },
                 {
@@ -191,10 +191,10 @@ function Home() {
                   Paid and Ready
                 </h2>
                 <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
-                  First Wednesday of the month, 6:00 to 7:30 p.m. We use AI
+                  First Wednesday of the month, 6:00 to 7:30 p.m. I use AI
                   live and set up your own paid subscription for personal use —
                   ChatGPT, Claude, or similar. You pay the tool company if you
-                  choose. We do not sell one. Come even if you are not ready to
+                  choose. I do not sell one. Come even if you are not ready to
                   subscribe tonight.
                 </p>
                 <Button asChild className="mt-8">
@@ -221,7 +221,7 @@ function Home() {
                     Not the kid’s. Not a shared shop password.
                   </li>
                   <li>
-                    <span className="font-medium text-foreground">No package from us.</span>{" "}
+                    <span className="font-medium text-foreground">No package from me.</span>{" "}
                     If you pay, you pay OpenAI, Anthropic, or whoever you pick.
                   </li>
                   <li>
@@ -241,7 +241,7 @@ function Home() {
                 Three formats
               </p>
               <h2 className="mt-3 font-display text-3xl tracking-tight sm:text-4xl">
-                How we gather.
+                How I show up.
               </h2>
             </div>
           </div>
@@ -319,13 +319,13 @@ function Home() {
             {[
               {
                 n: "01",
-                t: "We start from the question you walked in with.",
+                t: "I start from the question you walked in with.",
                 d: "Not a canned curriculum. A letter, a listing, a grant, a classroom unit, a missed-call headache — the thing that is actually on your desk.",
               },
               {
                 n: "02",
-                t: "You watch it get built. Then you do it.",
-                d: "David (or a mentor) uses the tools live, in front of the room. Then workshops and hackathons put it on your own phone or laptop. Seminars stay sit-and-ask after the live build.",
+                t: "You watch me build it. Then you do it.",
+                d: "I use the tools live, in front of the room. Workshops and hackathons then put it on your own phone or laptop. Seminars stay sit-and-ask after the live build.",
               },
               {
                 n: "03",
@@ -385,12 +385,12 @@ function Home() {
               </h2>
               <p className="mt-4 max-w-md text-sm leading-relaxed text-paper/75 sm:text-base">
                 A library meeting room, a chamber breakfast, a church basement, a
-                community-college gym. If you can get the people, we will bring
+                community-college gym. If you can get the people, I will bring
                 the gathering.
               </p>
               <Button asChild variant="inverse" className="mt-8">
                 <Link to="/host">
-                  Tell us about the room
+                  Tell me about the room
                   <ArrowRight />
                 </Link>
               </Button>
@@ -421,15 +421,15 @@ function Home() {
                 A little about me.
               </h2>
               <p className="mt-5 text-base leading-relaxed text-muted-foreground">
-                I live near Clinton. After years in IT I kept noticing the same
-                thing: the technology that is supposed to help folks often just
-                leaves them feeling left behind. AI is the biggest one yet.
+                After 35 years in IT, I recently moved to Clinton. I have seen
+                what AI can do, and I am ready to give that back. All ships
+                rising together — start here in town, then carry it across
+                Missouri, and as far as it will go.
               </p>
               <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                So AI for Missouri is gatherings — live, in the room. I will not
-                talk over your head. I will not sell you something you do not
-                need. When I am not in a library meeting room, I am out around
-                the lakes and the small towns.
+                I will not talk over your head. I will not sell you something
+                you do not need. I use the tools live, in the room. Then you
+                take a turn.
               </p>
               <Button asChild variant="outline" className="mt-6">
                 <Link to="/about">More about David</Link>
@@ -438,11 +438,11 @@ function Home() {
             <figure className="overflow-hidden rounded-2xl">
               <img
                 src="/images/hero-square.jpg"
-                alt="Historic downtown square near Clinton, Missouri"
+                alt="Henry County Courthouse on the square in Clinton, Missouri"
                 className="media aspect-[16/10] w-full object-cover"
               />
               <figcaption className="bg-card px-5 py-3 text-sm text-muted-foreground">
-                Home base: historic downtown Clinton, Henry County.
+                Home base: the courthouse square in Clinton, Henry County.
               </figcaption>
             </figure>
           </div>

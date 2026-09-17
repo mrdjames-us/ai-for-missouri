@@ -58,7 +58,7 @@ export function RsvpForm({ event }: { event: EventItem }) {
           You are on the list.
         </p>
         <p className="mt-2 text-sm leading-relaxed text-primary-foreground/80">
-          We will write {email || "you"} with parking, what to bring, and any
+          I’ll write {email || "you"} with parking, what to bring, and any
           room changes. If plans shift, email{" "}
           <a
             href="mailto:david@aiformissouri.com"
@@ -119,7 +119,7 @@ export function RsvpForm({ event }: { event: EventItem }) {
         </div>
       </div>
       <div className="space-y-1.5">
-        <Label htmlFor="rsvp-notes">Anything we should know?</Label>
+        <Label htmlFor="rsvp-notes">Anything I should know?</Label>
         <Textarea
           id="rsvp-notes"
           value={notes}

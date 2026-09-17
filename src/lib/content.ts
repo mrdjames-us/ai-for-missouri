@@ -14,31 +14,31 @@ export const EVENT_IMAGES = [
   { src: "/images/format-seminar.jpg", label: "Seminar room" },
   { src: "/images/event-rural.jpg", label: "Rural gathering" },
   { src: "/images/event-warehouse.jpg", label: "Warehouse build" },
-  { src: "/images/hero-square.jpg", label: "Town square" },
+  { src: "/images/hero-square.jpg", label: "Clinton courthouse square" },
 ] as const;
 
 export const PAGE_DEFAULTS = {
   home: {
     kicker: "Live in the room · Serving all of Missouri · Based in Clinton",
-    heading: "We use AI live, in front of people, to build things.",
-    lede: "Not a webinar. Not a slide deck in the dark. A library, a chamber breakfast, a Saturday hack — you watch it get made, then you make one too. Hosted by David James.",
+    heading: "I use AI live, in front of people, to build things.",
+    lede: "Not a webinar. Not a slide deck in the dark. A library, a chamber breakfast, a Saturday hack — you watch me make it, then you make one too.",
     body: [] as string[],
   },
   about: {
     kicker: "Clinton, Missouri",
-    heading: "I am David James, and this is a gathering place.",
+    heading: "I’m David James. This is a gathering place.",
     lede: "",
     body: [
-      "I live near Clinton. After years working in IT, I kept noticing the same thing: the technology that is supposed to help folks often just leaves them feeling left behind. AI is the biggest one yet — and the hype around it can be downright intimidating.",
-      "So I started AI for Missouri with a simple goal: make this stuff approachable and safe for regular people. Not scary, not salesy, just genuinely useful. I will not talk over your head, and I will not sell you something you do not need.",
-      "The way that happens is live. I sit down with the tools in front of whoever showed up, take a real question from the room, and build something — a letter, a listing, a helper for a shop — while people watch every click. Then they do it themselves. A workshop in a library. A seminar for a chamber breakfast. A weekend hackathon in a gym that still smells like a basketball game.",
-      "When I am not teaching, you will find me enjoying everything our corner of Missouri has to offer — the lakes, the small towns, and good neighbors. I would love to help yours.",
+      "After 35 years in IT, I recently moved to Clinton. I have seen what AI can do, and I am ready to give that back. All ships rising together — start here in town, then carry it across Missouri, and as far as it will go.",
+      "That is why I put rooms together. I sit down with the tools, take a real question from whoever showed up, and build it while you watch every click. Then you do it. A library workshop. A chamber breakfast. A weekend hackathon in a gym that still smells like basketball.",
+      "I will not talk over your head. I will not sell you something you do not need.",
+      "When I am not in a meeting room I am on the water or around town. I would like to come to yours.",
     ],
   },
   host: {
     kicker: "For libraries, chambers, churches, schools",
-    heading: "If you have the room, we have the gathering.",
-    lede: "We use AI live, in front of your people, to build something they can actually take home. A Saturday workshop, a chamber breakfast, or a weekend hackathon.",
+    heading: "If you have the room, I’ll bring the gathering.",
+    lede: "I use AI live, in front of your people, to build something they can actually take home. A Saturday workshop, a chamber breakfast, or a weekend hackathon.",
     body: [] as string[],
   },
   faq: {
@@ -138,7 +138,27 @@ async function ensureSeeded() {
   const existing = await sql<{ slug: string }>`select slug from events`;
   const have = new Set(existing.map((row) => row.slug));
   for (const event of EVENTS) {
-    if (!have.has(event.slug)) await insertEventRow(event, null);
+    if (!have.has(event.slug)) {
+      await insertEventRow(event, null);
+      continue;
+    }
+    await sql.query(
+      `update events
+       set title = $2, lede = $3, body = $4::jsonb, who = $5::jsonb,
+           bring = $6::jsonb, agenda = $7::jsonb, tracks = $8::jsonb,
+           updated_at = now()
+       where slug = $1 and updated_by is null`,
+      [
+        event.slug,
+        event.title,
+        event.lede,
+        JSON.stringify(event.body),
+        JSON.stringify(event.who),
+        JSON.stringify(event.bring),
+        JSON.stringify(event.agenda),
+        event.tracks ? JSON.stringify(event.tracks) : null,
+      ],
+    );
   }
   const pages = await sql<{ n: number }>`select count(*)::int as n from pages`;
   if ((pages[0]?.n ?? 0) === 0) {

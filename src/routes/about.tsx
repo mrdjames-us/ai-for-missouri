@@ -13,7 +13,7 @@ export const Route = createFileRoute("/about")({
       {
         name: "description",
         content:
-          "David James hosts live AI gatherings from Clinton, Missouri — we build in front of the room, then you try.",
+          "David James hosts live AI gatherings from Clinton, Missouri. He builds in front of the room, then you try.",
       },
     ],
   }),
@@ -37,7 +37,7 @@ function AboutPage() {
           <div className="mt-8 overflow-hidden rounded-2xl">
             <img
               src="/images/hero-square.jpg"
-              alt="Courthouse square in a west-central Missouri town"
+              alt="Henry County Courthouse on the square in Clinton, Missouri"
               className="media aspect-[16/9] w-full object-cover"
             />
           </div>
