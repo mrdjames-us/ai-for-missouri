@@ -135,11 +135,10 @@ function rowToEvent(row: EventRow): EventItem {
 async function ensureSeeded() {
   const { getSql } = await import("@/lib/db");
   const sql = await getSql();
-  const count = await sql<{ n: number }>`select count(*)::int as n from events`;
-  if ((count[0]?.n ?? 0) === 0) {
-    for (const event of EVENTS) {
-      await insertEventRow(event, null);
-    }
+  const existing = await sql<{ slug: string }>`select slug from events`;
+  const have = new Set(existing.map((row) => row.slug));
+  for (const event of EVENTS) {
+    if (!have.has(event.slug)) await insertEventRow(event, null);
   }
   const pages = await sql<{ n: number }>`select count(*)::int as n from pages`;
   if ((pages[0]?.n ?? 0) === 0) {

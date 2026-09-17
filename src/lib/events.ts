@@ -603,6 +603,103 @@ export const EVENTS: EventItem[] = [
   },
 ];
 
+function paidAndReadySession(opts: {
+  start: string;
+  whenLabel: string;
+  featured?: boolean;
+  reserved?: number;
+}): EventItem {
+  return {
+    slug: `paid-and-ready-${opts.start.slice(0, 7)}`,
+    kind: "workshop",
+    title: "Paid and Ready",
+    lede: "Live in the room: we set up your own paid AI subscription for personal use. You pay the tool company if you choose. We do not sell one.",
+    city: "Clinton",
+    venue: "Clinton Public Library",
+    region: "West Central",
+    start: opts.start,
+    end: opts.start,
+    whenLabel: opts.whenLabel,
+    timeLabel: "6:00 p.m. – 7:30 p.m.",
+    durationLabel: "Ninety minutes",
+    capacity: 18,
+    reserved: opts.reserved ?? 0,
+    status: "upcoming",
+    image: "/images/format-workshop.jpg",
+    featured: Boolean(opts.featured),
+    who: [
+      "People still on a free plan",
+      "Anyone whose kid set the account up",
+      "Shop owners who want their own login",
+      "Seniors who want it done once, correctly",
+    ],
+    bring: [
+      "A phone or laptop and a charger",
+      "An email you can log into",
+      "A payment card only if you already want to subscribe",
+      "One thing you wish the free version would do",
+    ],
+    agenda: [
+      { time: "6:00", item: "Sit down. What “paid” actually gets you — and what it does not." },
+      { time: "6:15", item: "Live: create the account. Email, password, privacy." },
+      { time: "6:35", item: "Live: the paid plan. Billing, how to cancel, personal vs family." },
+      { time: "6:55", item: "First useful thing on the paid tools — something you walked in with." },
+      { time: "7:20", item: "Questions. Nobody has to subscribe tonight." },
+    ],
+    body: [
+      "Paid and Ready is a monthly Wednesday evening in Clinton. We use AI live, in front of the room, and walk through setting up a paid subscription for your own personal use — ChatGPT, Claude, or similar.",
+      "This is not a product we sell. If you subscribe, you pay the tool company. We sit next to you, on the projector and on your phone, and get the account working: email, billing, privacy, cancel, and the first thing that is actually useful.",
+      "Come even if you are not ready to pay. Watching the setup is the point. First Wednesday of the month, 6:00 to 7:30 p.m., library meeting room. Coffee on the side table.",
+    ],
+  };
+}
+
+const PAID_AND_READY: EventItem[] = [
+  paidAndReadySession({
+    start: "2026-10-07",
+    whenLabel: "Wednesday, October 7, 2026",
+    featured: true,
+    reserved: 6,
+  }),
+  paidAndReadySession({
+    start: "2026-11-04",
+    whenLabel: "Wednesday, November 4, 2026",
+    reserved: 4,
+  }),
+  paidAndReadySession({
+    start: "2026-12-02",
+    whenLabel: "Wednesday, December 2, 2026",
+    reserved: 3,
+  }),
+  paidAndReadySession({
+    start: "2027-01-06",
+    whenLabel: "Wednesday, January 6, 2027",
+    reserved: 2,
+  }),
+  paidAndReadySession({
+    start: "2027-02-03",
+    whenLabel: "Wednesday, February 3, 2027",
+    reserved: 2,
+  }),
+  paidAndReadySession({
+    start: "2027-03-03",
+    whenLabel: "Wednesday, March 3, 2027",
+    reserved: 1,
+  }),
+  paidAndReadySession({
+    start: "2027-04-07",
+    whenLabel: "Wednesday, April 7, 2027",
+    reserved: 1,
+  }),
+  paidAndReadySession({
+    start: "2027-05-05",
+    whenLabel: "Wednesday, May 5, 2027",
+    reserved: 0,
+  }),
+];
+
+EVENTS.push(...PAID_AND_READY);
+
 export const TOWNS = [
   { name: "Clinton", note: "Home base" },
   { name: "Windsor", note: "Library workshop" },
@@ -621,6 +718,14 @@ export const TOWNS = [
 
 export const FAQS = [
   {
+    q: "What is Paid and Ready?",
+    a: "A monthly Wednesday evening in Clinton. We use the tools live and walk through setting up your own paid AI subscription — ChatGPT, Claude, or similar — for personal use. First Wednesday, 6:00 to 7:30 p.m., at the library. You pay the tool company if you choose. We do not sell a subscription.",
+  },
+  {
+    q: "Do I have to pay for a subscription at Paid and Ready?",
+    a: "No. You can watch the whole setup and decide later. If you do subscribe, that money goes to the company that makes the tool, not to AI for Missouri. Bring a card only if you already want to do it that night.",
+  },
+  {
     q: "Do you actually build things in the room?",
     a: "Yes. That is the whole method. We use AI live, in front of whoever showed up, on a real question from the room. You watch it get made. Then you try it on your own phone or laptop.",
   },
@@ -630,7 +735,7 @@ export const FAQS = [
   },
   {
     q: "Is this a sales pitch?",
-    a: "No. These are community gatherings. David will not sell you a package from the lectern, and nothing on this site is a product list. If you later want help on a specific job, that is a different conversation, on a different day.",
+    a: "No. These are community gatherings. David will not sell you a package from the lectern, and nothing on this site is a product list. Paid and Ready walks you through a subscription you buy from the tool company — that is not ours. If you later want help on a specific job, that is a different conversation, on a different day.",
   },
   {
     q: "What should I bring?",
@@ -649,6 +754,12 @@ export const FAQS = [
     a: "Workshops and seminars, yes — especially with a parent or teacher. Hackathons, yes if you can stay for the hours and a grown-up knows you are there. We are not a drop-off camp.",
   },
 ];
+
+export function nextPaidAndReady(events: EventItem[]) {
+  return upcomingFrom(events).find((event) =>
+    event.slug.startsWith("paid-and-ready-"),
+  );
+}
 
 export function upcomingFrom(events: EventItem[]) {
   return events.filter((event) => event.status === "upcoming");

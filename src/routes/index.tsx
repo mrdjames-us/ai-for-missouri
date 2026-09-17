@@ -16,7 +16,7 @@ import { EventCard } from "@/components/event-card";
 import { FaqList } from "@/components/faq-list";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FORMATS, TOWNS, featuredFrom, upcomingFrom } from "@/lib/events";
+import { FORMATS, TOWNS, featuredFrom, nextPaidAndReady, upcomingFrom } from "@/lib/events";
 import { getPublicPage, listPublicEvents } from "@/lib/content";
 
 export const Route = createFileRoute("/")({
@@ -53,6 +53,7 @@ function Home() {
   const { events, home, faq } = Route.useLoaderData();
   const featured = featuredFrom(events).slice(0, 3);
   const next = upcomingFrom(events)[0];
+  const paidReady = nextPaidAndReady(events);
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -178,6 +179,60 @@ function Home() {
             </ol>
           </div>
         </section>
+
+        {paidReady ? (
+          <section className="border-b border-border bg-paper">
+            <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:px-6 md:grid-cols-[1.15fr_0.85fr] md:py-20">
+              <div>
+                <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                  Monthly in Clinton
+                </p>
+                <h2 className="mt-3 font-display text-3xl tracking-tight sm:text-4xl">
+                  Paid and Ready
+                </h2>
+                <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
+                  First Wednesday of the month, 6:00 to 7:30 p.m. We use AI
+                  live and set up your own paid subscription for personal use —
+                  ChatGPT, Claude, or similar. You pay the tool company if you
+                  choose. We do not sell one. Come even if you are not ready to
+                  subscribe tonight.
+                </p>
+                <Button asChild className="mt-8">
+                  <Link
+                    to="/events/$slug"
+                    params={{ slug: paidReady.slug }}
+                  >
+                    Next session: {paidReady.whenLabel}
+                    <ArrowRight />
+                  </Link>
+                </Button>
+              </div>
+              <div className="rounded-2xl bg-card p-6 shadow-card">
+                <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
+                  In the room
+                </p>
+                <ul className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
+                  <li>
+                    <span className="font-medium text-foreground">Live setup.</span>{" "}
+                    Account, privacy, billing, how to cancel.
+                  </li>
+                  <li>
+                    <span className="font-medium text-foreground">Your login.</span>{" "}
+                    Not the kid’s. Not a shared shop password.
+                  </li>
+                  <li>
+                    <span className="font-medium text-foreground">No package from us.</span>{" "}
+                    If you pay, you pay OpenAI, Anthropic, or whoever you pick.
+                  </li>
+                  <li>
+                    <span className="font-medium text-foreground">Clinton Public Library.</span>{" "}
+                    Eighteen chairs. Coffee on the side table.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+        ) : null}
 
         <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
           <div className="flex flex-wrap items-end justify-between gap-4">
