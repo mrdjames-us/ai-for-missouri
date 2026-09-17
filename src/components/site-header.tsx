@@ -4,6 +4,8 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useRsvpStore } from "@/lib/rsvp";
+import { SignedIn, SignedOut, UserButton } from "@/lib/auth/gates";
+import { useCurrentUserState } from "@/lib/auth/use-current-user";
 
 const LINKS = [
   { to: "/events", label: "Calendar" },
@@ -26,6 +28,48 @@ function Mark({ inverse = false }: { inverse?: boolean }) {
         <rect x="17" y="8" width="4" height="10" rx="1" />
       </svg>
     </span>
+  );
+}
+
+function AuthSlot({ onHero }: { onHero: boolean }) {
+  const { user, isPending } = useCurrentUserState();
+  if (isPending) {
+    return <div className="h-8 w-8 animate-pulse rounded-full bg-current/15" />;
+  }
+  return (
+    <>
+      <SignedIn>
+        <Link
+          to="/admin"
+          className={cn(
+            "rounded-md px-3 py-2 text-sm font-medium",
+            onHero
+              ? "text-paper/80 hover:text-paper"
+              : "text-muted-foreground hover:text-foreground",
+          )}
+        >
+          Staff
+        </Link>
+        <span className={onHero ? "text-paper" : ""}>
+          <UserButton />
+        </span>
+      </SignedIn>
+      <SignedOut>
+        {user ? null : (
+          <Link
+            to="/login"
+            className={cn(
+              "rounded-md px-3 py-2 text-sm font-medium",
+              onHero
+                ? "text-paper/70 hover:text-paper"
+                : "text-muted-foreground hover:text-foreground",
+            )}
+          >
+            Staff
+          </Link>
+        )}
+      </SignedOut>
+    </>
   );
 }
 
@@ -59,7 +103,7 @@ export function SiteHeader({ tone = "light" }: { tone?: "light" | "hero" }) {
                 onHero ? "text-paper/70" : "text-muted-foreground",
               )}
             >
-              Hackathons · Workshops · Seminars
+              Hackathons · Workshops · Seminars · Live
             </span>
           </span>
         </Link>
@@ -100,6 +144,7 @@ export function SiteHeader({ tone = "light" }: { tone?: "light" | "hero" }) {
               Your RSVPs ({rsvpCount})
             </Link>
           ) : null}
+          <AuthSlot onHero={onHero} />
           <Button
             asChild
             size="sm"
@@ -150,6 +195,13 @@ export function SiteHeader({ tone = "light" }: { tone?: "light" | "hero" }) {
                 Your RSVPs ({rsvpCount})
               </Link>
             ) : null}
+            <Link
+              to="/admin"
+              onClick={() => setOpen(false)}
+              className="rounded-md px-3 py-3 text-base font-medium hover:bg-secondary"
+            >
+              Staff desk
+            </Link>
             <Button asChild className="mt-2 w-full">
               <Link to="/events" onClick={() => setOpen(false)}>
                 See the calendar

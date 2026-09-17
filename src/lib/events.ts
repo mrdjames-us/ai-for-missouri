@@ -40,33 +40,33 @@ export const FORMATS: Record<
   hackathon: {
     label: "Hackathon",
     plural: "Hackathons",
-    kicker: "Build together",
+    kicker: "Build it live",
     summary:
-      "A day or a weekend of building. Pick a problem that matters to a Missouri town, farm, shop, or school — and leave with something that actually runs.",
+      "A day or a weekend of building in the open. You watch it take shape in the room, then you ship something that actually runs.",
     detail:
-      "Teams of neighbors, students, shop owners, and anyone curious. Mentors on the floor. Tracks for first-timers and for folks who already code. We end with short demos, not a pitch contest.",
+      "Teams of neighbors, students, shop owners, and anyone curious. Mentors on the floor, building live. Tracks for first-timers and for folks who already code. We end with short demos, not a pitch contest.",
     duration: "One day or a weekend",
     image: "/images/format-hackathon.jpg",
   },
   workshop: {
     label: "Workshop",
     plural: "Workshops",
-    kicker: "Hands on",
+    kicker: "Hands on, live",
     summary:
-      "Small groups, real tools, no jargon. Everyone leaves having actually done something useful on their own phone or laptop.",
+      "David works live from a question in the room. Then everyone tries it on their own phone or laptop. Small groups, no jargon.",
     detail:
-      "Libraries, churches, chambers, and community rooms. We go slow on purpose. Seniors, shop owners, teachers, farm families — if you can tap a screen, you can do this.",
+      "Libraries, churches, chambers, and community rooms. We go slow on purpose. You watch a real thing get built, then you build one. Seniors, shop owners, teachers, farm families — if you can tap a screen, you can do this.",
     duration: "A morning or an afternoon",
     image: "/images/format-workshop.jpg",
   },
   seminar: {
     label: "Seminar",
     plural: "Seminars",
-    kicker: "Straight talk",
+    kicker: "Straight talk, then a live build",
     summary:
-      "A clear, jargon-free talk for a room of neighbors. What AI can do, what it cannot, and how a Missouri town might actually use it.",
+      "A clear talk for a room of neighbors — then we use the tools live so you see what AI can do, and what it cannot.",
     detail:
-      "Built for chambers, civic clubs, school boards, and city staff. Forty-five minutes of sense, then questions. You will not be sold a package.",
+      "Built for chambers, civic clubs, school boards, and city staff. Forty-five minutes of sense, a live build from a question in the room, then questions. You will not be sold a package.",
     duration: "About ninety minutes",
     image: "/images/format-seminar.jpg",
   },
@@ -621,6 +621,10 @@ export const TOWNS = [
 
 export const FAQS = [
   {
+    q: "Do you actually build things in the room?",
+    a: "Yes. That is the whole method. We use AI live, in front of whoever showed up, on a real question from the room. You watch it get made. Then you try it on your own phone or laptop.",
+  },
+  {
     q: "Do I need to know how to code?",
     a: "Not for workshops or seminars. Hackathons have tracks for first-timers — every team needs someone who knows the actual problem. If you farm, run a shop, teach, or keep a library going, you are already qualified.",
   },
@@ -638,13 +642,31 @@ export const FAQS = [
   },
   {
     q: "Are events in person?",
-    a: "Yes. The whole idea is a room of Missouri neighbors. If weather or a road problem forces a change, everyone who RSVP’d gets a note.",
+    a: "Yes. Live, in the room. If weather or a road problem forces a change, everyone who RSVP’d gets a note.",
   },
   {
     q: "Can high-schoolers come?",
     a: "Workshops and seminars, yes — especially with a parent or teacher. Hackathons, yes if you can stay for the hours and a grown-up knows you are there. We are not a drop-off camp.",
   },
 ];
+
+export function upcomingFrom(events: EventItem[]) {
+  return events.filter((event) => event.status === "upcoming");
+}
+
+export function pastFrom(events: EventItem[]) {
+  return events.filter((event) => event.status === "past");
+}
+
+export function featuredFrom(events: EventItem[]) {
+  return upcomingFrom(events).filter((event) => event.featured);
+}
+
+export function byKindFrom(events: EventItem[], kind: EventKind | "all") {
+  const list = upcomingFrom(events);
+  if (kind === "all") return list;
+  return list.filter((event) => event.kind === kind);
+}
 
 export function getEvent(slug: string) {
   return EVENTS.find((event) => event.slug === slug);

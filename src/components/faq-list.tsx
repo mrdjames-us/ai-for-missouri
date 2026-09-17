@@ -3,12 +3,14 @@ import { ChevronDown } from "lucide-react";
 import { FAQS } from "@/lib/events";
 import { cn } from "@/lib/utils";
 
-export function FaqList() {
+type FaqItem = { q: string; a: string };
+
+export function FaqList({ items = FAQS }: { items?: FaqItem[] }) {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
     <div className="divide-y divide-border rounded-2xl bg-card shadow-card">
-      {FAQS.map((item, i) => {
+      {items.map((item, i) => {
         const isOpen = open === i;
         return (
           <div key={item.q}>

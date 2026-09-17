@@ -2,13 +2,15 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Clock, MapPin, Users } from "lucide-react";
 import { RsvpForm } from "@/components/rsvp-form";
 import { Badge } from "@/components/ui/badge";
-import { getEvent, kindLabel } from "@/lib/events";
+import { kindLabel } from "@/lib/events";
+import { getPublicEvent } from "@/lib/content";
 import { useRsvpStore } from "@/lib/rsvp";
 
 export const Route = createFileRoute("/events/$slug")({
+  loader: async ({ params }) => getPublicEvent({ data: { slug: params.slug } }),
   component: EventDetailPage,
-  head: ({ params }) => {
-    const event = getEvent(params.slug);
+  head: ({ loaderData }) => {
+    const event = loaderData;
     return {
       meta: [
         {
@@ -22,9 +24,8 @@ export const Route = createFileRoute("/events/$slug")({
 });
 
 function EventDetailPage() {
-  const { slug } = Route.useParams();
-  const event = getEvent(slug);
-  const extra = useRsvpStore((s) => s.countFor(slug));
+  const event = Route.useLoaderData();
+  const extra = useRsvpStore((s) => s.countFor(event?.slug ?? ""));
 
   if (!event) {
     return (

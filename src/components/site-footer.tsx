@@ -7,8 +7,8 @@ export function SiteFooter() {
         <div>
           <p className="font-display text-2xl tracking-tight">AI for Missouri</p>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-paper/70">
-            Hackathons, workshops, and seminars for people who actually live
-            here. Based in Clinton. Traveling the state.
+            Hackathons, workshops, and seminars — we use AI live, in the room,
+            to build things. Based in Clinton. Traveling the state.
           </p>
         </div>
         <div>
@@ -29,6 +29,11 @@ export function SiteFooter() {
             <li>
               <Link to="/about" className="hover:text-cream">
                 About David
+              </Link>
+            </li>
+            <li>
+              <Link to="/login" className="hover:text-cream">
+                Staff desk
               </Link>
             </li>
           </ul>

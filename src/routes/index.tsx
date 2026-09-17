@@ -7,6 +7,7 @@ import {
   Laptop,
   MapPin,
   Mic2,
+  MonitorPlay,
   Users,
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
@@ -15,9 +16,18 @@ import { EventCard } from "@/components/event-card";
 import { FaqList } from "@/components/faq-list";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FORMATS, TOWNS, featuredEvents, upcomingEvents } from "@/lib/events";
+import { FORMATS, TOWNS, featuredFrom, upcomingFrom } from "@/lib/events";
+import { getPublicPage, listPublicEvents } from "@/lib/content";
 
 export const Route = createFileRoute("/")({
+  loader: async () => {
+    const [events, home, faq] = await Promise.all([
+      listPublicEvents(),
+      getPublicPage({ data: { slug: "home" } }),
+      getPublicPage({ data: { slug: "faq" } }),
+    ]);
+    return { events, home, faq };
+  },
   component: Home,
   head: () => ({
     meta: [
@@ -27,7 +37,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Community AI gatherings across Missouri: weekend hackathons, hands-on workshops, and straight-talk seminars. Hosted by David James.",
+          "We use AI live, in front of people, to build things. Hackathons, workshops, and seminars across Missouri. Hosted by David James.",
       },
     ],
   }),
@@ -40,8 +50,9 @@ const FORMAT_ICONS = {
 } as const;
 
 function Home() {
-  const featured = featuredEvents().slice(0, 3);
-  const next = upcomingEvents()[0];
+  const { events, home, faq } = Route.useLoaderData();
+  const featured = featuredFrom(events).slice(0, 3);
+  const next = upcomingFrom(events)[0];
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -56,14 +67,13 @@ function Home() {
           <SiteHeader tone="hero" />
           <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col justify-end px-4 pb-14 pt-20 sm:px-6 sm:pb-20">
             <p className="rise-in rise-in-1 text-xs font-medium uppercase tracking-[0.18em] text-paper/70">
-              Serving all of Missouri · Based in Clinton
+              {home.kicker}
             </p>
             <h1 className="rise-in rise-in-2 mt-4 max-w-3xl font-display text-[2.6rem] leading-[1.05] tracking-tight sm:text-6xl md:text-7xl">
-              Gatherings for people who actually live here.
+              {home.heading}
             </h1>
             <p className="rise-in rise-in-3 mt-5 max-w-xl text-base leading-relaxed text-paper/85 sm:text-lg">
-              Hackathons. Workshops. Seminars. Plain English, real towns, no
-              hype — hosted by David James.
+              {home.lede}
             </p>
             <div className="rise-in rise-in-4 mt-8 flex flex-wrap items-center gap-3">
               <Button asChild variant="inverse" size="lg">
@@ -118,11 +128,54 @@ function Home() {
             </div>
             <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
               Hi, I am David James. I live near Clinton. I host AI gatherings
-              across the state so regular folks — shop owners, farm families,
-              librarians, teachers, curious neighbors — can actually use this
-              stuff. A room, a Saturday, a real question. That is the whole
-              program.
+              across the state so regular folks can actually use this stuff. The
+              method is simple: we use the tools live, in front of the room, and
+              we build something real — then you do it yourself.
             </p>
+          </div>
+        </section>
+
+        <section className="bg-forest text-primary-foreground">
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
+            <p className="text-xs font-medium uppercase tracking-[0.16em] text-primary-foreground/55">
+              The method
+            </p>
+            <h2 className="mt-3 max-w-2xl font-display text-3xl tracking-tight sm:text-4xl">
+              We use AI live, in front of people, to build things.
+            </h2>
+            <ol className="mt-10 grid gap-6 md:grid-cols-3">
+              {[
+                {
+                  n: "01",
+                  icon: Users,
+                  t: "Someone names a real problem.",
+                  d: "A letter. A listing. A missed-call headache. A form you keep putting off. We start from what you walked in with — not a canned demo.",
+                },
+                {
+                  n: "02",
+                  icon: MonitorPlay,
+                  t: "We build it live. You watch every click.",
+                  d: "On the projector, in the room, with the tools on the table. No slide deck in the dark. If it fails, you see that too. That is the honest part.",
+                },
+                {
+                  n: "03",
+                  icon: Laptop,
+                  t: "Then you make one on your own device.",
+                  d: "Workshops and hackathons are hands-on. Seminars sit, watch the live build, and ask. You leave with something that actually runs.",
+                },
+              ].map((step) => (
+                <li key={step.n} className="rounded-2xl bg-forest-deep/40 p-6 ring-1 ring-paper/10">
+                  <p className="flex items-center gap-2 font-display text-sm text-paper/55">
+                    <step.icon className="size-4" aria-hidden />
+                    {step.n}
+                  </p>
+                  <h3 className="mt-3 font-display text-xl leading-snug">{step.t}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-paper/75">
+                    {step.d}
+                  </p>
+                </li>
+              ))}
+            </ol>
           </div>
         </section>
 
@@ -216,8 +269,8 @@ function Home() {
               },
               {
                 n: "02",
-                t: "You do the work on your own phone or laptop.",
-                d: "Workshops and hackathons are hands-on. Seminars are sit-and-ask. Nobody is watching a slide deck in the dark for an hour.",
+                t: "You watch it get built. Then you do it.",
+                d: "David (or a mentor) uses the tools live, in front of the room. Then workshops and hackathons put it on your own phone or laptop. Seminars stay sit-and-ask after the live build.",
               },
               {
                 n: "03",
@@ -318,7 +371,7 @@ function Home() {
                 leaves them feeling left behind. AI is the biggest one yet.
               </p>
               <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                So AI for Missouri is gatherings — not a product lab. I will not
+                So AI for Missouri is gatherings — live, in the room. I will not
                 talk over your head. I will not sell you something you do not
                 need. When I am not in a library meeting room, I am out around
                 the lakes and the small towns.
@@ -348,7 +401,14 @@ function Home() {
             Before you come.
           </h2>
           <div className="mt-8">
-            <FaqList />
+            <FaqList
+              items={faq.body
+                .map((item) => {
+                  const rec = item as { q?: string; a?: string };
+                  return { q: rec.q ?? "", a: rec.a ?? "" };
+                })
+                .filter((item) => item.q)}
+            />
           </div>
         </section>
       </main>

@@ -11,11 +11,21 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as HostRouteImport } from './routes/host'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as RsvpsRouteImport } from './routes/rsvps'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminEventsRouteImport } from './routes/admin.events'
+import { Route as AdminPagesRouteImport } from './routes/admin.pages'
+import { Route as AdminStaffRouteImport } from './routes/admin.staff'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
+import { Route as AdminEventsIndexRouteImport } from './routes/admin.events.index'
+import { Route as AdminEventsSlugRouteImport } from './routes/admin.events.$slug'
+import { Route as AdminEventsNewRouteImport } from './routes/admin.events.new'
+import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -25,6 +35,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EventsRoute = EventsRouteImport.update({
@@ -37,10 +52,35 @@ const HostRoute = HostRouteImport.update({
   path: '/host',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RsvpsRoute = RsvpsRouteImport.update({
   id: '/rsvps',
   path: '/rsvps',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminEventsRoute = AdminEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPagesRoute = AdminPagesRouteImport.update({
+  id: '/pages',
+  path: '/pages',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminStaffRoute = AdminStaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
+  getParentRoute: () => AdminRoute,
 } as any)
 const EventsIndexRoute = EventsIndexRouteImport.update({
   id: '/',
@@ -52,63 +92,148 @@ const EventsSlugRoute = EventsSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => EventsRoute,
 } as any)
+const AdminEventsIndexRoute = AdminEventsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminEventsRoute,
+} as any)
+const AdminEventsSlugRoute = AdminEventsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => AdminEventsRoute,
+} as any)
+const AdminEventsNewRoute = AdminEventsNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => AdminEventsRoute,
+} as any)
+const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
+  id: '/api/auth/$',
+  path: '/api/auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/events': typeof EventsRouteWithChildren
   '/host': typeof HostRoute
+  '/login': typeof LoginRoute
   '/rsvps': typeof RsvpsRoute
+  '/admin/events': typeof AdminEventsRouteWithChildren
+  '/admin/pages': typeof AdminPagesRoute
+  '/admin/staff': typeof AdminStaffRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/events/': typeof EventsIndexRoute
+  '/admin/events/$slug': typeof AdminEventsSlugRoute
+  '/admin/events/new': typeof AdminEventsNewRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/admin/events/': typeof AdminEventsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/host': typeof HostRoute
+  '/login': typeof LoginRoute
   '/rsvps': typeof RsvpsRoute
+  '/admin/pages': typeof AdminPagesRoute
+  '/admin/staff': typeof AdminStaffRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/events': typeof EventsIndexRoute
+  '/admin/events/$slug': typeof AdminEventsSlugRoute
+  '/admin/events/new': typeof AdminEventsNewRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/admin/events': typeof AdminEventsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/events': typeof EventsRouteWithChildren
   '/host': typeof HostRoute
+  '/login': typeof LoginRoute
   '/rsvps': typeof RsvpsRoute
+  '/admin/events': typeof AdminEventsRouteWithChildren
+  '/admin/pages': typeof AdminPagesRoute
+  '/admin/staff': typeof AdminStaffRoute
   '/events/$slug': typeof EventsSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/events/': typeof EventsIndexRoute
+  '/admin/events/$slug': typeof AdminEventsSlugRoute
+  '/admin/events/new': typeof AdminEventsNewRoute
+  '/api/auth/$': typeof ApiAuthSplatRoute
+  '/admin/events/': typeof AdminEventsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
     | '/events'
     | '/host'
+    | '/login'
     | '/rsvps'
+    | '/admin/events'
+    | '/admin/pages'
+    | '/admin/staff'
     | '/events/$slug'
+    | '/admin/'
     | '/events/'
+    | '/admin/events/$slug'
+    | '/admin/events/new'
+    | '/api/auth/$'
+    | '/admin/events/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/host' | '/rsvps' | '/events/$slug' | '/events'
+  to:
+    | '/'
+    | '/about'
+    | '/host'
+    | '/login'
+    | '/rsvps'
+    | '/admin/pages'
+    | '/admin/staff'
+    | '/events/$slug'
+    | '/admin'
+    | '/events'
+    | '/admin/events/$slug'
+    | '/admin/events/new'
+    | '/api/auth/$'
+    | '/admin/events'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
     | '/events'
     | '/host'
+    | '/login'
     | '/rsvps'
+    | '/admin/events'
+    | '/admin/pages'
+    | '/admin/staff'
     | '/events/$slug'
+    | '/admin/'
     | '/events/'
+    | '/admin/events/$slug'
+    | '/admin/events/new'
+    | '/api/auth/$'
+    | '/admin/events/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   EventsRoute: typeof EventsRouteWithChildren
   HostRoute: typeof HostRoute
+  LoginRoute: typeof LoginRoute
   RsvpsRoute: typeof RsvpsRoute
+  ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -127,6 +252,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/events': {
       id: '/events'
       path: '/events'
@@ -141,12 +273,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HostRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rsvps': {
       id: '/rsvps'
       path: '/rsvps'
       fullPath: '/rsvps'
       preLoaderRoute: typeof RsvpsRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/events': {
+      id: '/admin/events'
+      path: '/events'
+      fullPath: '/admin/events'
+      preLoaderRoute: typeof AdminEventsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/pages': {
+      id: '/admin/pages'
+      path: '/pages'
+      fullPath: '/admin/pages'
+      preLoaderRoute: typeof AdminPagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/staff': {
+      id: '/admin/staff'
+      path: '/staff'
+      fullPath: '/admin/staff'
+      preLoaderRoute: typeof AdminStaffRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/events/': {
       id: '/events/'
@@ -162,8 +329,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsSlugRouteImport
       parentRoute: typeof EventsRoute
     }
+    '/admin/events/': {
+      id: '/admin/events/'
+      path: '/'
+      fullPath: '/admin/events/'
+      preLoaderRoute: typeof AdminEventsIndexRouteImport
+      parentRoute: typeof AdminEventsRoute
+    }
+    '/admin/events/$slug': {
+      id: '/admin/events/$slug'
+      path: '/$slug'
+      fullPath: '/admin/events/$slug'
+      preLoaderRoute: typeof AdminEventsSlugRouteImport
+      parentRoute: typeof AdminEventsRoute
+    }
+    '/admin/events/new': {
+      id: '/admin/events/new'
+      path: '/new'
+      fullPath: '/admin/events/new'
+      preLoaderRoute: typeof AdminEventsNewRouteImport
+      parentRoute: typeof AdminEventsRoute
+    }
+    '/api/auth/$': {
+      id: '/api/auth/$'
+      path: '/api/auth/$'
+      fullPath: '/api/auth/$'
+      preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
+
+interface AdminEventsRouteChildren {
+  AdminEventsSlugRoute: typeof AdminEventsSlugRoute
+  AdminEventsNewRoute: typeof AdminEventsNewRoute
+  AdminEventsIndexRoute: typeof AdminEventsIndexRoute
+}
+
+const AdminEventsRouteChildren: AdminEventsRouteChildren = {
+  AdminEventsSlugRoute: AdminEventsSlugRoute,
+  AdminEventsNewRoute: AdminEventsNewRoute,
+  AdminEventsIndexRoute: AdminEventsIndexRoute,
+}
+
+const AdminEventsRouteWithChildren = AdminEventsRoute._addFileChildren(
+  AdminEventsRouteChildren,
+)
+
+interface AdminRouteChildren {
+  AdminEventsRoute: typeof AdminEventsRouteWithChildren
+  AdminPagesRoute: typeof AdminPagesRoute
+  AdminStaffRoute: typeof AdminStaffRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminEventsRoute: AdminEventsRouteWithChildren,
+  AdminPagesRoute: AdminPagesRoute,
+  AdminStaffRoute: AdminStaffRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface EventsRouteChildren {
   EventsSlugRoute: typeof EventsSlugRoute
@@ -181,9 +408,12 @@ const EventsRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   EventsRoute: EventsRouteWithChildren,
   HostRoute: HostRoute,
+  LoginRoute: LoginRoute,
   RsvpsRoute: RsvpsRoute,
+  ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

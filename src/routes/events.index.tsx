@@ -3,15 +3,17 @@ import { EventCard } from "@/components/event-card";
 import { Button } from "@/components/ui/button";
 import {
   type EventKind,
-  eventsByKind,
-  pastEvents,
-  upcomingEvents,
+  byKindFrom,
+  pastFrom,
+  upcomingFrom,
 } from "@/lib/events";
+import { listPublicEvents } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
 type EventsSearch = { kind?: EventKind };
 
 export const Route = createFileRoute("/events/")({
+  loader: () => listPublicEvents(),
   validateSearch: (search: Record<string, unknown>): EventsSearch => {
     if (
       search.kind === "hackathon" ||
@@ -45,9 +47,11 @@ const FILTERS: { id: EventKind | "all"; label: string }[] = [
 function EventsPage() {
   const { kind: kindParam } = Route.useSearch();
   const kind = kindParam ?? "all";
-  const list = eventsByKind(kind);
-  const past = kind === "all" ? pastEvents() : pastEvents().filter((e) => e.kind === kind);
-  const upcomingCount = upcomingEvents().length;
+  const events = Route.useLoaderData();
+  const list = byKindFrom(events, kind);
+  const past =
+    kind === "all" ? pastFrom(events) : pastFrom(events).filter((e) => e.kind === kind);
+  const upcomingCount = upcomingFrom(events).length;
 
   return (
     <main id="main" className="flex-1">

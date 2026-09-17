@@ -3,8 +3,10 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { HostForm } from "@/components/host-form";
 import { FORMATS } from "@/lib/events";
+import { getPublicPage } from "@/lib/content";
 
 export const Route = createFileRoute("/host")({
+  loader: () => getPublicPage({ data: { slug: "host" } }),
   component: HostPage,
   head: () => ({
     meta: [
@@ -12,13 +14,14 @@ export const Route = createFileRoute("/host")({
       {
         name: "description",
         content:
-          "Bring an AI hackathon, workshop, or seminar to your Missouri library, chamber, church, or school.",
+          "Bring a live AI gathering to your Missouri library, chamber, church, or school. We build in front of your people.",
       },
     ],
   }),
 });
 
 function HostPage() {
+  const page = Route.useLoaderData();
   return (
     <div className="flex min-h-dvh flex-col">
       <div className="border-b border-border bg-paper">
@@ -34,14 +37,13 @@ function HostPage() {
           <div className="hero-shade absolute inset-0" />
           <div className="relative mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20">
             <p className="text-xs font-medium uppercase tracking-[0.16em] text-paper/60">
-              For libraries, chambers, churches, schools
+              {page.kicker}
             </p>
             <h1 className="mt-4 font-display text-4xl tracking-tight sm:text-5xl">
-              If you have the room, we have the gathering.
+              {page.heading}
             </h1>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-paper/80">
-              A Saturday workshop, a chamber breakfast seminar, or a weekend
-              hackathon. You know who would come. We will handle the day.
+              {page.lede}
             </p>
           </div>
         </div>
@@ -52,8 +54,8 @@ function HostPage() {
             <ul className="mt-5 space-y-4 text-sm leading-relaxed text-muted-foreground">
               <li>
                 <span className="font-medium text-foreground">A room.</span>{" "}
-                Chairs, a table or two, power strips. A projector is nice for
-                seminars. Workshops just need the table.
+                Chairs, a table or two, power strips. A projector is how the
+                live build reaches the back row. Workshops still need the table.
               </li>
               <li>
                 <span className="font-medium text-foreground">A date.</span>{" "}
