@@ -4,6 +4,7 @@ import { RsvpForm } from "@/components/rsvp-form";
 import { Badge } from "@/components/ui/badge";
 import { kindLabel } from "@/lib/events";
 import { getPublicEvent } from "@/lib/content";
+import { eventJsonLd, jsonLdScript } from "@/lib/event-jsonld";
 import { useRsvpStore } from "@/lib/rsvp";
 
 export const Route = createFileRoute("/events/$slug")({
@@ -47,6 +48,10 @@ function EventDetailPage() {
 
   return (
     <main id="main" className="flex-1">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(eventJsonLd(event)) }}
+      />
       <div className="relative isolate h-[42vh] min-h-64 overflow-hidden bg-forest-deep sm:h-[48vh]">
         <img src={event.image} alt="" className="h-full w-full object-cover" />
         <div className="hero-shade absolute inset-0" />
