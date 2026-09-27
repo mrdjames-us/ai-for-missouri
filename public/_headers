@@ -1,0 +1,4 @@
+# HSTS for static assets served straight from the Workers assets binding
+# (the Worker adds the same header in server/middleware/0-hsts.ts). No preload.
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
