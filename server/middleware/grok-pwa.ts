@@ -13,6 +13,10 @@
  *   (this function cannot read `src/lib/og/site.json` or `public/og.jpg`).
  *   This must be a middleware transforming `next()`: h3 discards the `response`
  *   runtime hook's return value, and `render:html` does not exist in Nitro v3.
+ * - Agents asking for Markdown/plain text (`Accept: text/markdown`,
+ *   `Accept: text/plain`, `/page.md`) get a Markdown rendering of the page.
+ *   Without this, TanStack Start's SSR answers any Accept without
+ *   `text/html` or `*\/*` with HTTP 500. Other non-HTML Accepts get the HTML.
  */
 import installPageTemplate from "../../scripts/install-page.html?raw";
 import { grokOgIdentity } from "virtual:grok-og-identity";
@@ -24,10 +28,118 @@ import {
   renderInstallPageHtml,
   renderWebManifest,
 } from "../../scripts/grok-pwa-shared.mjs";
+import {
+  htmlToMarkdown,
+  negotiateDocument,
+  stripMarkdownSuffix,
+} from "../../scripts/agent-text.mjs";
 
 interface GrokPwaEvent {
   url: URL;
-  req: { method: string; headers: Headers };
+  req: Request & Record<string, unknown>;
+}
+
+const HTML_ACCEPT = "text/html,*/*;q=0.8";
+/** srvx/Nitro attach these to the incoming Request; a rebuilt Request must keep them. */
+const REQUEST_EXTRAS = ["runtime", "waitUntil", "context", "ip"] as const;
+
+/**
+ * Swap `event.req` for a copy that asks SSR for HTML (and optionally drops a
+ * `.md` suffix from the path). Incoming Request headers are immutable on
+ * Workers, so the request has to be rebuilt.
+ */
+function requestHtml(event: GrokPwaEvent, pathname: string | null): void {
+  const original = event.req;
+  const headers = new Headers(original.headers);
+  headers.set("accept", HTML_ACCEPT);
+  let target: string | Request = original;
+  if (pathname !== null) {
+    const url = new URL(original.url);
+    url.pathname = pathname;
+    target = url.toString();
+  }
+  const replacement = new Request(target, {
+    method: original.method,
+    headers,
+    signal: original.signal,
+  }) as Request & Record<string, unknown>;
+  for (const key of REQUEST_EXTRAS) {
+    const value = original[key];
+    if (value !== undefined) {
+      Object.defineProperty(replacement, key, {
+        value,
+        configurable: true,
+        enumerable: true,
+        writable: true,
+      });
+    }
+  }
+  (event as { req: Request }).req = replacement;
+}
+
+function withVaryAccept(headers: Headers): Headers {
+  const vary = headers.get("vary");
+  if (!vary) headers.set("vary", "Accept");
+  else if (!/\baccept\b/i.test(vary)) headers.set("vary", `${vary}, Accept`);
+  return headers;
+}
+
+async function textResponse(
+  response: Response,
+  kind: "markdown" | "plain",
+  url: string,
+  isHead: boolean,
+): Promise<Response> {
+  const html = response.body ? await response.text() : "";
+  const markdown = htmlToMarkdown(html, { url });
+  const headers = withVaryAccept(new Headers(response.headers));
+  headers.set(
+    "content-type",
+    kind === "markdown" ? "text/markdown; charset=utf-8" : "text/plain; charset=utf-8",
+  );
+  headers.delete("content-length");
+  headers.delete("content-encoding");
+  headers.delete("etag");
+  headers.set("x-content-source", "html-to-markdown");
+  return new Response(isHead ? null : markdown, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
+/**
+ * Markdown / plain-text / other non-HTML Accept on a document URL. Always
+ * renders the HTML page first (so SSR never sees a non-HTML Accept) and
+ * falls back to that HTML if the conversion itself fails.
+ */
+async function serveAgentDocument(
+  event: GrokPwaEvent,
+  next: () => unknown | Promise<unknown>,
+  kind: "markdown" | "plain" | "html-forced",
+  pathname: string | null,
+  isHead: boolean,
+): Promise<unknown> {
+  const publicUrl = new URL(event.url.toString());
+  if (pathname !== null) publicUrl.pathname = pathname;
+  requestHtml(event, pathname);
+  const result = await next();
+  if (!(result instanceof Response)) return result;
+  const contentType = String(result.headers.get("content-type") ?? "");
+  if (kind === "html-forced" || !contentType.includes("text/html")) {
+    const headers = withVaryAccept(new Headers(result.headers));
+    return new Response(result.body, {
+      status: result.status,
+      statusText: result.statusText,
+      headers,
+    });
+  }
+  try {
+    return await textResponse(result.clone(), kind, publicUrl.toString(), isHead);
+  } catch (error) {
+    console.error("[grok-pwa] markdown rendering failed; serving HTML", error);
+    return result;
+  }
 }
 
 function requestHost(event: GrokPwaEvent): string {
@@ -65,9 +177,23 @@ export default async function grokPwaMiddleware(
   next: () => unknown | Promise<unknown>,
 ): Promise<unknown> {
   const method = (event.req.method ?? "GET").toUpperCase();
-  if (method !== "GET") return next();
+  if (method !== "GET" && method !== "HEAD") return next();
 
   const path = event.url.pathname;
+  if (!path.startsWith("/_serverFn")) {
+    const mdPath = stripMarkdownSuffix(path);
+    if (mdPath !== null && isDocumentPath(mdPath)) {
+      return serveAgentDocument(event, next, "markdown", mdPath, method === "HEAD");
+    }
+    if (isDocumentPath(path)) {
+      const kind = negotiateDocument(event.req.headers.get("accept"));
+      if (kind !== "html") {
+        return serveAgentDocument(event, next, kind, null, method === "HEAD");
+      }
+    }
+  }
+  if (method !== "GET") return next();
+
   const urlWithQuery = path + event.url.search;
 
   if (path === "/__grok/manifest.webmanifest" || path === "/__grok/manifest.json") {
